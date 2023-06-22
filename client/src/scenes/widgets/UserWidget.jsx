@@ -4,6 +4,8 @@ import {
   LocationOnOutlined,
   WorkOutlineOutlined,
 } from "@mui/icons-material";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { Box, Typography, Divider, useTheme } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import WidgetWrapper from "components/WidgetWrapper";
@@ -121,7 +123,7 @@ const UserWidget = ({ userId, picturePath }) => {
 
         <FlexBetween gap="1rem" mb="0.5rem" justifyContent="space-between">
           <FlexBetween gap="1rem">
-            <img src="assets\twitter.png" alt="twitter" />
+            <TwitterIcon />
             <Box>
               <Typography color={main} fontWeight="500">
                 Twitter
@@ -134,7 +136,7 @@ const UserWidget = ({ userId, picturePath }) => {
 
         <FlexBetween gap="1rem" justifyContent="space-between">
           <FlexBetween gap="1rem">
-            <img src="../assets/linkedin.png" alt="linkedin" />
+            <LinkedInIcon />
             <Box>
               <Typography color={main} fontWeight="500">
                 LinkedIn

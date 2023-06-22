@@ -31,15 +31,15 @@ const PostWidget = ({
   const likeCount = Object.keys(likes).length;
 
   const { palette } = useTheme();
-  const primary = palette.primary.main;
   const main = palette.neutral.main;
+  const primary = palette.primary.main;
 
   const patchLike = async () => {
     const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-type": "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ userId: loggedInUserId }),
     });
@@ -48,7 +48,7 @@ const PostWidget = ({
   };
 
   return (
-    <WidgetWrapper m="2rem 0">
+    <WidgetWrapper m="1rem 0">
       <Friend
         friendId={postUserId}
         name={name}
@@ -62,12 +62,12 @@ const PostWidget = ({
         <img
           width="100%"
           height="auto"
+          alt="post"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
           src={`http://localhost:3001/assets/${picturePath}`}
-          alt="post"
         />
       )}
-      <FlexBetween justifyContent="space-between" mt="0.25rem">
+      <FlexBetween mt="0.25rem">
         <FlexBetween gap="1rem">
           <FlexBetween gap="0.3rem">
             <IconButton onClick={patchLike}>

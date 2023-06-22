@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -6,6 +6,10 @@ import {
   useMediaQuery,
   Typography,
   useTheme,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  IconButton,
 } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
@@ -15,6 +19,8 @@ import { useDispatch } from "react-redux"; //use redux to store user info
 import { setLogin } from "state";
 import Dropzone from "react-dropzone"; //for dropping files upload
 import FlexBetween from "components/FlexBetween";
+import InputAdornment from "@mui/material/InputAdornment";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -100,6 +106,14 @@ const Form = () => {
   const handleFormSubmit = async (values, onSubmitProps) => {
     if (isLogin) await login(values, onSubmitProps);
     if (isRegister) await register(values, onSubmitProps);
+  };
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
   };
 
   return (
@@ -231,7 +245,7 @@ const Form = () => {
                 gridColumn: "span 4",
               }}
             />
-            <TextField
+            {/* <TextField
               label="Password"
               type="password"
               onBlur={handleBlur}
@@ -243,7 +257,39 @@ const Form = () => {
               sx={{
                 gridColumn: "span 4",
               }}
-            />
+            /> */}
+            <FormControl
+              sx={{
+                gridColumn: "span 4",
+              }}
+            >
+              <InputLabel htmlFor="outlined-adornment-password">
+                Password
+              </InputLabel>
+              <OutlinedInput
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.password}
+                name="password"
+                error={Boolean(touched.password) && Boolean(errors.password)}
+                helperText={touched.password && errors.password}
+                id="outlined-adornment-password"
+                type={showPassword ? "text" : "password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+            </FormControl>
           </Box>
 
           {/* Buttons */}

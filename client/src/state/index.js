@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  //this is the global state
   mode: "light",
   user: null,
   token: null,
@@ -10,7 +9,7 @@ const initialState = {
 
 export const authSlice = createSlice({
   name: "auth",
-  initialState, //reducers are functions that modify the global state
+  initialState,
   reducers: {
     setMode: (state) => {
       state.mode = state.mode === "light" ? "dark" : "light";
@@ -27,7 +26,7 @@ export const authSlice = createSlice({
       if (state.user) {
         state.user.friends = action.payload.friends;
       } else {
-        console.error("user friends non-existent");
+        console.error("user friends non-existent :(");
       }
     },
     setPosts: (state, action) => {
