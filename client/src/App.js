@@ -15,7 +15,7 @@ function App() {
   const isAuth = Boolean(useSelector((state) => state.token));
 
   useEffect(() => {
-    fetch("https://blossom-backend.onrender.com/").then((res) => res.json());
+    fetch("https://blossom-backend.onrender.com").then((res) => res.json());
   }, []);
 
   return (
