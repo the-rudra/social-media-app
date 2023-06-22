@@ -8,7 +8,7 @@ const UserImage = ({ image, size = "60px" }) => {
         alt="profile"
         width={size}
         height={size}
-        src={`http://localhost:3001/assets/${image}`}
+        src={`https://blossom-backend.onrender.com/assets/${image}`}
       />
     </Box>
   );

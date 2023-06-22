@@ -14,10 +14,6 @@ function App() {
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   const isAuth = Boolean(useSelector((state) => state.token));
 
-  useEffect(() => {
-    fetch("https://blossom-backend.onrender.com/").then((res) => res.json());
-  }, []);
-
   return (
     <div className="app">
       <BrowserRouter>

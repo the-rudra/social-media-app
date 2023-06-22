@@ -29,11 +29,10 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(
-  cors({
-    origin: "https://blossom-jo0p.onrender.com/",
-  })
-);
+const corsOptions = {
+  origin: ["https://blossom-jo0p.onrender.com", "http://localhost:3000"], // frontend URI (ReactJS)
+};
+app.use(cors(corsOptions));
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
 /* file storage */
