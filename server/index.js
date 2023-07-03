@@ -29,20 +29,18 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-const corsOptions = {
-  origin: ["https://blossom-social.onrender.com", "http://localhost:3000"], // frontend URI (ReactJS)
-};
-app.use(cors(corsOptions));
+
+app.use(cors());
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
 /* file storage */
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "public/assets");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  },
+    destination: function (req, file, cb) {
+        cb(null, "public/assets");
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    },
 });
 const upload = multer({ storage });
 
@@ -51,25 +49,39 @@ app.post("/auth/register", upload.single("picture"), register); // this route ne
 app.post("/posts", verifyToken, upload.single("picture"), createPost);
 
 /* routes */
-app.use("/auth", authRoutes);
-app.use("/users", userRoutes);
-app.use("/posts", postRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/posts", postRoutes);
+
+/* deployment code */
+const __dirname1 = path.resolve();
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname1, "/client/build")));
+
+    app.get("*", (req, res) =>
+        res.sendFile(path.resolve(__dirname1, "client", "build", "index.html"))
+    );
+} else {
+    app.get("/", (req, res) => {
+        res.send("API is running..");
+    });
+}
 
 /* mongoose */
 const PORT = process.env.PORT || 6001;
 mongoose
-  .connect(process.env.MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log("listening on port ", PORT);
-      //mock data
-      // User.insertMany(users);
-      // Post.insertMany(posts);
+    .connect(process.env.MONGO_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log("listening on port ", PORT);
+            //mock data
+            // User.insertMany(users);
+            // Post.insertMany(posts);
+        });
+    })
+    .catch((err) => {
+        console.log("error: ", err);
     });
-  })
-  .catch((err) => {
-    console.log("error: ", err);
-  });
